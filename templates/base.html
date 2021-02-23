@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="de">
+	<head>
+		<title>Cryplorer - {{address}}</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!--<link rel="icon" type="image/png" href="favicon.png" sizes="32x32">-->
+        <!--<link rel="icon" type="image/ico" href="favicon.ico" sizes="32x32">-->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Lato%7CViga%7CInconsolata" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+        <style>
+            header{ background-color: rgb(200, 200, 200); padding: 1em;}
+            a{ text-decoration: none; color: black; margin-right: 2em;}
+        
+            .responsive_col, .col{ 
+                display: flex;
+                justify-content: center;
+            }
+            
+            .row{
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .transaction{
+                display: flex;
+                justify-content: flex-start;
+                box-shadow: 0 0 2px 0 rgb(0, 0, 0);
+                font-size: 0.7em;
+                border-radius:4px;
+                padding: 10px;
+                margin: 10px;
+            }
+            
+            body{
+                font-size: 1.5em;
+                font-family: 'Lato', sans-serif;
+            }
+            
+            .hide_hash{
+                width: 13em;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                text-align: center;
+            }
+            
+            #darkmode_icon{
+                border-radius:4px;
+                border: 1px solid black;
+                padding: 4px;
+            }
+            
+            #transaction_info{
+                display: flex;
+                justify-content: center;
+            }
+            
+            div{ margin-right: 1em;}
+            
+            #address_qr{
+                width: 256px;
+                height: 256px;
+                border: 1px solid;
+            }
+            
+            .send_tx{ color: #700 }
+            .recv_tx{ color: #070 }
+            
+            /*.dark .transaction{
+                box-shadow: 0 0 2px 0 #0A0;
+            }*/
+            
+            .dark{ color: orange; background-color: rgb(20, 20, 0); }
+            .dark .send_tx{ color: #C00; box-shadow: 0 0 2px 0 #B00; }
+            .dark .recv_tx{ color: #0A0; box-shadow: 0 0 2px 0 #0A0; }
+            .dark #darkmode_icon{ border: 1px solid orange; }
+            .dark header { background-color: rgb(40, 40, 0); }
+            .dark a {color: orange;}
+        </style>
+	</head>
+	<body>
+		<header>
+            <div class="col" style="">
+                <a href="/"> Cryplorer </a> 
+                <div class="col">
+                    <a href="/bitcoin"> Bitcoin </a> 
+                    <a href="/ethereum"> Ethereum </a>
+                </div>
+                <i id="darkmode_icon" class="fa fa-moon fa-1x"></i>
+            </div>
+		</header>
+        
+        {% block content %}
+        {% endblock %}
+        
+		<footer>
+		</footer>
+        
+		<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@master/qrcode.min.js"></script>
+        <script type="text/javascript">
+            new QRCode(document.getElementById("address_qr"), "ethereum:{{address}}");
+            $('body').toggleClass('dark')
+            $("#darkmode_icon").click(function(){
+                $('body').toggleClass('dark')
+            });
+        </script>
+        <!-- $('body').toggleClass('dark') -->
+	</body>
+</html>
