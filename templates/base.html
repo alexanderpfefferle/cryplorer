@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="de">
 	<head>
-		<title>Cryplorer - {{address}}</title>
+        {% block title %}
+        {% endblock %}
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!--<link rel="icon" type="image/png" href="favicon.png" sizes="32x32">-->
@@ -71,12 +72,26 @@
                 box-shadow: 0 0 2px 0 #0A0;
             }*/
             
+            .copy {
+                color: #0044ff;
+            }
+            
+            input { padding: 6px;}
+            
+            *:focus {
+                outline: none;
+            }
+            
             .dark{ color: orange; background-color: rgb(20, 20, 0); }
             .dark .send_tx{ color: #C00; box-shadow: 0 0 2px 0 #B00; }
             .dark .recv_tx{ color: #0A0; box-shadow: 0 0 2px 0 #0A0; }
             .dark #darkmode_icon{ border: 1px solid orange; }
             .dark header { background-color: rgb(40, 40, 0); }
             .dark a {color: orange;}
+            .dark .copy {color: cyan;}
+            .dark textarea{ color: orange; background-color: rgb(20, 20, 0); }
+            .dark input{ color: orange; background-color: rgb(20, 20, 0);border:1px solid orange}
+            
         </style>
 	</head>
 	<body>
@@ -84,8 +99,6 @@
             <div class="col" style="">
                 <a href="/"> Cryplorer </a> 
                 <div class="col">
-                    <a href="/bitcoin"> Bitcoin </a> 
-                    <a href="/ethereum"> Ethereum </a>
                 </div>
                 <i id="darkmode_icon" class="fa fa-moon fa-1x"></i>
             </div>
@@ -100,10 +113,17 @@
 		<script src="https://code.jquery.com/jquery-latest.min.js"></script>
         <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@master/qrcode.min.js"></script>
         <script type="text/javascript">
-            new QRCode(document.getElementById("address_qr"), "ethereum:{{address}}");
-            $('body').toggleClass('dark')
+            {% block js %}{% endblock %}
+            if(localStorage.getItem('darkmode')==null)
+                localStorage.setItem('darkmode', 1);
+            if(localStorage.getItem('darkmode')=='1')
+                $('body').toggleClass('dark');
             $("#darkmode_icon").click(function(){
                 $('body').toggleClass('dark')
+                if(localStorage.getItem('darkmode')=='1')
+                    localStorage.setItem('darkmode', 0);
+                else
+                    localStorage.setItem('darkmode', 1);
             });
         </script>
         <!-- $('body').toggleClass('dark') -->

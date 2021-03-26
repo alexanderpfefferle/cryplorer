@@ -1,4 +1,7 @@
 {% extends "base.html" %}
+{% block title %}
+    <title>Cryplorer - {{address}}</title>
+{% endblock %}
 {% block content %}
         <section id="address_info" class="col" style="margin: 1em 0 1em 0;">
             <div class="row">
@@ -17,6 +20,9 @@
                         <div>
                             {{accinfo['txcount']}} Transactions
                         </div>
+                        <div>
+                            {% if accinfo['code'] != "" %}Contract <i class="copy far fa-copy fa-1x"></i>{% endif %}
+                        </div>
                     </div>
                     <div id="address_qr"></div>
                 </div>
@@ -26,23 +32,25 @@
         <section id="transaction_info">
             <div class="row">
                 {% for tx in transactions %}
+                <a href="/eth/tx/{{tx["tx_hash"]}}">
                 <div {% if address == tx['from'] %}class="transaction send_tx"{% else %}class="transaction recv_tx"{% endif %}>
                     <div>{{tx['block']}}</div>
                     <div>{{tx['timestamp']}}</div>
-                    {% if tx['from'] == '0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359' %}
-                        <div class="hide_hash">Dai-Contract</div>
-                    {% else %}
-                        <div class="hide_hash">{{tx['from']}}</div>
-                    {% endif %}
+                    <div class="hide_hash">{{tx['from_name']}}</div>
                     <div><i class="fas fa-arrow-right"></i></div>
-                    {% if tx['to'] == '0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359' %}
-                        <div class="hide_hash">Dai-Contract</div>
-                    {% else %}
-                        <div class="hide_hash">{{tx['to']}}</div>
-                    {% endif %}
+                    <div class="hide_hash">{{tx['to_name']}}</div>
                     <span><i class="fab fa-ethereum fa-1x" style="margin-right: 2px;"></i>{{((tx['value']|float)*0.000000000000000001)|round(8)}}</span>
                 </div>
+                </a>
                 {% endfor %}
             </div>
         </section>
+{% endblock %}
+{% block js %}
+    new QRCode(document.getElementById("address_qr"), "ethereum:{{address}}");
+    {% if accinfo['code'] != "" %}
+    copy = document.getElementsByClassName('copy')
+    copy[0].style.cursor = 'pointer';
+    copy[0].onclick = function(){navigator.clipboard.writeText("{{accinfo['code']}}")};
+    {% endif %}
 {% endblock %}

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>Cryplorer</title>
+{% endblock %}
+{% block content %}
+        <section id="stats" class="col" style="margin: 4em 0 1em 0;">
+            <div class="col">
+                <div class="row" style="margin: 0 3em 0 3em;">
+                    <div class="col">Gas Price</div>
+                    <div class="col" style="font-size:35px;">{{net_info['gas_price']}} Gwei</div>
+                </div>
+                <div class="row" style="margin: 0 0em 0 0em;">
+                    <div class="col">Height</div>
+                    <div class="col" style="font-size:35px;">{{net_info['height']}}</div>
+                </div>
+                <div class="row" style="margin: 0 3em 0 3em;">
+                    <div class="col">Hash Rate</div>
+                    <div class="col" style="font-size:35px;">{{net_info['hashrate']|round(2)}} GH/s</div>
+                </div>
+                <div class="row" style="margin: 0 3em 0 3em;">
+                    <div class="col">Nodes</div>
+                    <div class="col" style="font-size:35px;">{{net_info['nodes']}}</div>
+                </div>
+            </div>
+        </section>
+        <section id="main" class="col" style="margin: 4em 0 1em 0;">
+            <div class="row">
+            <div class="col">
+            Address/Tx:
+            </div>
+            <input size="50" style="margin:1em;border-radius: 10px;"></input>
+            </div>
+        </section>
+{% endblock %}
+
+{% block js %}
+inputField = document.getElementsByTagName("input")[0];
+inputField.addEventListener("keyup", function(event) {
+        data=inputField.value;
+        if(data.length==42){
+           document.location.href='/eth/address/'+data
+        }else if(data.length==66){
+           document.location.href='/eth/tx/'+data
+        }
+});
+{% endblock %}

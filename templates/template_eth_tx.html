@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>Cryplorer - {{tx_hash}}</title>
+{% endblock %}
+{% block content %}
+        <section id="tx_info" class="col" style="margin: 1em 0 1em 0;">
+            <div class="row">
+                <span style="margin-bottom: 0.7em">{{tx_hash}}</span>
+                <div class="col">
+                    <div class="row">
+                    <table style="width:100%">
+                            <tr><td>Status:</td><td>{% if tx_info['state'] == 1%}<span style="color:#55FF55">Success</span>{% else %}<span style="color:red">Error</span>{% endif %}<td></tr>
+                            <tr><td>Block:</td><td>{{tx_info['block']}}<td></tr>
+                            <tr><td>Timestamp:</td><td>{{tx_info['block_timestamp']}}<td></tr>
+                            <tr><td>From:</td><td><a href="/eth/address/{{tx_info['from']}}">{{tx_info['from']}}</a><i class="copy far fa-copy fa-1x"></i><td></tr>
+                            <tr><td>To:</td><td><a href="/eth/address/{{tx_info['to']}}">{{tx_info['to']}}</a><i class="copy far fa-copy fa-1x"></i><td></tr>
+                            <tr><td>Value:</td><td><span><i class="fab fa-ethereum fa-1x" style="margin-right: 2px;"></i>{{((tx_info['value']|float)*0.000000000000000001)|round(8)}}</span><td></tr>
+                            <tr><td>Gas Used:</td><td>{{tx_info['gas_used']}}<td></tr>
+                            <tr><td>Gased Limit:</td><td>{{tx_info['gas_limit']}}<td></tr>
+                            <tr><td>Gase Price:</td><td>{{tx_info['gas_price_gwei']}} Gwei<td></tr>
+                            <tr><td>Hex Data:</td></tr>
+                    </table>
+                    <div>
+                    <textarea readonly style="" rows="4" cols="50">{{tx_info['hexdata']}}</textarea>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+{% endblock %}
+{% block js %}
+copy = document.getElementsByClassName('copy')
+copy[0].style.cursor = 'pointer';
+copy[1].style.cursor = 'pointer';
+copy[0].onclick = function(){navigator.clipboard.writeText("{{tx_info['from']}}")}
+copy[1].onclick = function(){navigator.clipboard.writeText("{{tx_info['to']}}")}
+{% endblock %}
