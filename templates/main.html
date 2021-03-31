@@ -33,6 +33,12 @@
         </section>
 {% endblock %}
 
+{% block footer %}
+    <div class="col">
+        <a href="https://github.com/alexanderpfefferle/cryplorer">GitHub</a>
+    </div>
+{% endblock %}
+
 {% block js %}
 inputField = document.getElementsByTagName("input")[0];
 inputField.addEventListener("keyup", function(event) {

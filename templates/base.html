@@ -107,13 +107,16 @@
         {% block content %}
         {% endblock %}
         
-		<footer>
+		<footer style="margin:3em 0 0 0;">
+            {% block footer %}
+            {% endblock %}
 		</footer>
         
 		<script src="https://code.jquery.com/jquery-latest.min.js"></script>
         <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@master/qrcode.min.js"></script>
         <script type="text/javascript">
-            {% block js %}{% endblock %}
+            {% block js %}
+            {% endblock %}
             if(localStorage.getItem('darkmode')==null)
                 localStorage.setItem('darkmode', 1);
             if(localStorage.getItem('darkmode')=='1')

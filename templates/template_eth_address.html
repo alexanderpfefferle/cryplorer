@@ -46,6 +46,10 @@
             </div>
         </section>
 {% endblock %}
+
+{% block footer %}
+{% endblock %}
+
 {% block js %}
     new QRCode(document.getElementById("address_qr"), "ethereum:{{address}}");
     {% if accinfo['code'] != "" %}
